@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "CLI to scaffold production-ready GraphQL project structure.",
     "bin": {
-        "create-graphql-starter-kit": "bin/index.ts"
+        "create-graphql-starter-kit": "bin/index.js"
     },
     "repository": {
         "type": "git",
