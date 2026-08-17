@@ -1,0 +1,42 @@
+{
+    "name": "create-graphql-starter-kit",
+    "version": "1.0.0",
+    "description": "CLI to scaffold production-ready GraphQL project structure.",
+    "bin": {
+        "create-graphql-starter-kit": "bin/index.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/avishek0769/graphql-starter-kit.git"
+    },
+    "bugs": {
+        "url": "https://github.com/avishek0769/graphql-starter-kit/issues"
+    },
+    "homepage": "https://github.com/avishek0769/graphql-starter-kit/#readme",
+    "files": [
+        "bin",
+        "template"
+    ],
+    "keywords": [
+        "cli",
+        "graphql",
+        "starter",
+        "backend",
+        "scaffold"
+    ],
+    "author": "Avishek Adhikary <avishekadhikary42@gmail.com>",
+    "license": "MIT",
+    "type": "module",
+    "engines": {
+        "node": ">=18"
+    },
+    "preferGlobal": true,
+    "dependencies": {
+        "fs-extra": "^11.3.4",
+        "inquirer": "^13.3.2",
+        "ora": "^9.3.0"
+    },
+    "devDependencies": {
+        "typescript": "^7.0.2"
+    }
+}
