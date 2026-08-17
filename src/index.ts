@@ -67,7 +67,7 @@ async function init() {
     const packageJsonFileContent = JSON.parse(await fs.readFile("package.json", { encoding: "utf8" }));
     packageJsonFileContent.type = "module";
     packageJsonFileContent.scripts = {
-        dev: "node --watch index.js",
+        dev: "node --watch src/index.js",
     };
     await fs.writeFile("package.json", JSON.stringify(packageJsonFileContent));
 
@@ -79,13 +79,52 @@ async function init() {
         db = "prisma @prisma/client @prisma/adapter-pg pg @prisma/client-runtime-utils";
     }
 
-    const installationProcess = exec(`${installCommand} @apollo/server graphql ${db}`);
+    const installationProcess = exec(
+        `${installCommand} express cors dotenv @as-integrations/express5 @apollo/server graphql ${db}`,
+    );
 
+    // Done installing packages
     installationProcess.on("exit", async (code) => {
         if (code === 0) {
             installationSpinner.succeed("Installation done");
         } else {
             installationSpinner.fail(`Process exited with code ${code}`);
         }
+
+        // Setup codebase - GraphQL
+        const codeGenerationSpinner = ora("Setting up codebase...").start();
+
+        await fsExtra.copy(`${tp("graphql-temp")}/`, "./src/");
+
+        // Setup codebase - Database
+        if (answers.database === "sql") {
+            const prismaProcess = exec(
+                `${executionCommand} prisma init --datasource-provider postgresql --output ../generated/prisma`,
+            );
+
+            prismaProcess.on("exit", async (code) => {
+                if (code === 0) {
+                    codeGenerationSpinner.succeed("All done :)");
+                } else {
+                    codeGenerationSpinner.fail(`Process exited with code ${code}`);
+                }
+                await fsExtra.copy(`${tp("postgres")}/prisma.js`, "./src/lib/prisma.js");
+            });
+        } else {
+            const mongodbProcess = exec(
+                `${installCommand} mongoose`,
+            );
+
+            mongodbProcess.on("exit", async (code) => {
+                if (code === 0) {
+                    codeGenerationSpinner.succeed("All done :)");
+                } else {
+                    codeGenerationSpinner.fail(`Process exited with code ${code}`);
+                }
+                await fsExtra.copy(`${tp("postgres")}/mongodb.js`, "./src/lib/mongodb.js");
+            });
+        }
     });
 }
+
+init()
