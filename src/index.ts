@@ -123,6 +123,7 @@ async function init() {
                     codeGenerationSpinner.fail(`Process exited with code ${code}`);
                 }
                 await fsExtra.copy(`${tp("mongodb")}/mongoose.js`, "./src/lib/mongoose.js");
+                await fsExtra.copy(`${tp("mongodb")}/example.model.js`, "./model/example.model.js");
             });
         }
     });
