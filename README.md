@@ -112,12 +112,6 @@ Start the development server:
 pnpm dev
 ```
 
-Or use the available start script:
-
-```bash
-pnpm start
-```
-
 ## Extending the Starter
 
 You can add additional GraphQL modules following the same structure:
