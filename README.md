@@ -34,7 +34,7 @@ pnpm create graphql-starter-kit
 
 ```text
 .
-├── prisma/
+├── prisma/ (if installed)
 │   └── schema.prisma
 ├── src/
 │   ├── graphql/
@@ -46,6 +46,8 @@ pnpm create graphql-starter-kit
 │   │       ├── resolvers.js
 │   │       └── typedefs.js
 │   ├── lib/
+│   │   ├── prisma.js
+│   │   └── mongoose.js
 │   ├── services/
 │   │   └── user.js
 │   └── index.js
