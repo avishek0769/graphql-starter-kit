@@ -122,7 +122,7 @@ async function init() {
                 } else {
                     codeGenerationSpinner.fail(`Process exited with code ${code}`);
                 }
-                await fsExtra.copy(`${tp("postgres")}/mongodb.js`, "./src/lib/mongodb.js");
+                await fsExtra.copy(`${tp("mongodb")}/mongodb.js`, "./src/lib/mongodb.js");
             });
         }
     });
