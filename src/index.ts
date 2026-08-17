@@ -14,6 +14,7 @@ const TEMPLATE_BASE = path.join(__dirname, "../template");
 const tp = (...segments: [string]) => path.join(TEMPLATE_BASE, ...segments);
 
 async function init() {
+    // Ask queries
     const answers = await inquirer.prompt([
         {
             type: "select",
@@ -36,6 +37,7 @@ async function init() {
         },
     ]);
 
+    // Setup package manager
     let initCommand = "";
     let installCommand = "";
     let executionCommand = "";
@@ -60,6 +62,7 @@ async function init() {
 
     const installationSpinner = ora("Installing necessary packages...").start();
 
+    // Update package.json
     execSync(initCommand);
     const packageJsonFileContent = JSON.parse(await fs.readFile("package.json", { encoding: "utf8" }));
     packageJsonFileContent.type = "module";
@@ -68,5 +71,21 @@ async function init() {
     };
     await fs.writeFile("package.json", JSON.stringify(packageJsonFileContent));
 
-    
+    // Install packages
+    let db = "";
+    if (answers.database === "nosql") {
+        db = "mongoose";
+    } else {
+        db = "prisma @prisma/client @prisma/adapter-pg pg @prisma/client-runtime-utils";
+    }
+
+    const installationProcess = exec(`${installCommand} @apollo/server graphql ${db}`);
+
+    installationProcess.on("exit", async (code) => {
+        if (code === 0) {
+            installationSpinner.succeed("Installation done");
+        } else {
+            installationSpinner.fail(`Process exited with code ${code}`);
+        }
+    });
 }
