@@ -1,5 +1,3 @@
-import ThreadService from "../../services/thread.js";
-import UserService from "../../services/user.js";
 
 const nested = {
     
